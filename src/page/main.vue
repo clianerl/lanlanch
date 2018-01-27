@@ -1,7 +1,7 @@
 <template>
 <div class="container lan" id="container">
 	<div class="row header">
-		<div class="col-xs-2 header-btn return"><span>返回</span></div>
+		<div class="col-xs-2 header-btn return"><span>返回啊</span></div>
 		<div class="col-xs-8 header-btn title"><span>查看</span></div>
 		<div class="col-xs-2 header-btn add"><span>新增</span></div>
 	</div>
