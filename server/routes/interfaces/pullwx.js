@@ -2,25 +2,48 @@ var express = require('express');
 var router = express.Router();
 var conn = require('../../connection');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	console.log(req.query);
-	res.end();
-	// conn.query("SELECT * FROM lanlan.lan_message;",function(data){
-	// 	var msg = [];
-	// 	for(var i in data){
-	// 		var msgitem = {
-	// 			name : "小猴子",
-	// 			intro : data[i].content,
-	// 			img : data[i].img_str
-	// 		}
-	// 		msg.push(msgitem);
-	// 	}
 
-	// 	res.status(200),
-	// 	res.json(msg)
-	// 	// res.render('index', { title: 'Express' });
-	// })
-});
+const crypto = require('crypto');
+const path = require('path');
+const url = require('url');
+
+
+
+//进行sha1加密
+function sha1(str) {
+  var shasum = crypto.createHash("sha1");
+  shasum.update(str);
+  str = shasum.digest("hex");
+  return str;
+}
+
+function wechatAuth(req, res) {
+  var query = url.parse(req.url, true).query;
+  console.log("####wx content");
+  console.log(query);
+  
+  var signature = query.signature;
+  var echostr = query.echostr;
+  var timestamp = query['timestamp'];
+  var nonce = query.nonce;
+
+  var reqArray = [nonce, timestamp, 'chonglou159'];
+
+  //对数组进行字典排序
+  reqArray.sort();
+  var sortStr = reqArray.join('');//连接数组
+  var sha1Str = sha1(sortStr);
+
+  if (signature === sha1Str) {
+    res.end(echostr);
+  } else {
+    res.end("false");
+    console.log("授权失败!");
+  }
+}
+
+
+/* GET home page. */
+router.get('/',wechatAuth);
 
 module.exports = router;
