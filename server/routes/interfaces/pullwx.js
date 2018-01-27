@@ -5,6 +5,7 @@ var conn = require('../../connection');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	console.log(req.query);
+	res.end();
 	// conn.query("SELECT * FROM lanlan.lan_message;",function(data){
 	// 	var msg = [];
 	// 	for(var i in data){
