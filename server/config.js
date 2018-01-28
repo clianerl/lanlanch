@@ -5,6 +5,7 @@ var config = {
 	'starttime':'',
 	'expires_in':'',
 	'regettime':0,
+	'max_regettime':5,
 	accessTokenIsRight:function(){
 		if(this.access_token=='' || this.starttime=='' || this.expires_in=='')return false;
 		if((this.starttime+(this.expires_in*1000))<=(new Date().getTime())){
@@ -15,6 +16,9 @@ var config = {
 		}
 	},
 	getAccessToken:function(){
+		//记录请求次数，最多五次
+		this.regettime++;
+		if(this.regettime>this.max_regettime){
 		console.log("==========getAccessToken start=======")
 		if(this.accessTokenIsRight()){
 			return this.access_token;
@@ -36,7 +40,6 @@ var config = {
 		    path: '/cgi-bin/token?' + content, 
 		    method: 'GET' 
 		}; 
-		   
 		var req = https.request(options, function (res) { 
 			console.log('OPTIONS: ' + JSON.stringify(options)); 
 		    console.log('STATUS: ' + res.statusCode); 
@@ -48,10 +51,7 @@ var config = {
 		    }); 
 		    res.on('end',function(){
 		    	console.log('BODY: ' + body); 
-		    	if(eval('('+body+')').errcode!=undefined){
-
 		    	}
-		    	return "access_token";
 		    })
 		}); 
 		   
@@ -60,7 +60,6 @@ var config = {
 		}); 
 		   
 		req.end();
-
 	}
 }
 
