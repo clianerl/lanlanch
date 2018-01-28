@@ -19,7 +19,8 @@ router.get('/', function(req, res, next) {
 		        {
 		            "type": "view", 
 		            "name": "主页", 
-		            "url": "http://114.115.132.9/node/getMessage"
+		            "url": "http://114.115.132.9/node/getMessage",
+		            "sub_button":[]
 		        }
 		    ]
 		}
