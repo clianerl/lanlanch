@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
 		        }
 		    ]
 		}
-		var postContent = qs.stringify(postData); 
+		var postContent = JSON.stringify(postData); 
 		console.log("--postContent:"+postContent);
 		var options = { 
 		    hostname: 'api.weixin.qq.com', 
