@@ -96,7 +96,7 @@ function  parseMessage(data){
   //console.log(FromUserName);
   //===构造返回信息
   var xml = "<xml> <ToUserName>"+FromUserName+"</ToUserName> <FromUserName>"+ToUserName+"</FromUserName>"+
-  "<CreateTime>"+Date.parse(new Date())+"</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[兰兰欢迎您! http://www.baidu.com]]></Content> </xml>";
+  "<CreateTime>"+Date.parse(new Date())+"</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[兰兰欢迎您!]]></Content> </xml>";
 
 
   //var xml =  builder.buildObject("xml",retJson);

@@ -13,20 +13,21 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "bootstrap": "^3.3.7",
-    "jquery": "^2.2.4",
-    "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
     "body-parser": "~1.18.2",
+    "bootstrap": "^3.3.7",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "jade": "~1.11.0",
+    "jquery": "^2.2.4",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
-    "serve-favicon": "~2.4.5"
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "serve-favicon": "^2.4.5",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
