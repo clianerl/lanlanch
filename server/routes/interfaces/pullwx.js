@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var conn = require('../../connection');
 var xml2js = require('xml2js');
+var config = require('../../config');
 
 const crypto = require('crypto');
 const path = require('path');
@@ -55,6 +56,7 @@ function serverCheck(req,res){
 }
 
 function  reciveMessage(req,res){
+
     console.log("####消息信息数据获取#####");
   var data ="";
   req.setEncoding('utf8');
@@ -70,39 +72,25 @@ function  reciveMessage(req,res){
 }
 
 function  parseMessage(data){
-   console.log("###消息接收解析并回复###");
-  // var builder = new xml2js.Builder();  // JSON->xml
-  // var parser = new xml2js.Parser();   //xml -> json
-  // var prjson =  parser.parseString(data,{explicitArray : false});
-
-  console.log(data);
-  //console.log(prjson);
-
-  // var retJson = {
-  //   'ToUserName': prjson.FromUserName,
-  //   'FromUserName' : prjson.ToUserName,
-  //   'CreateTime' : Date.parse(new Date()),
-  //   'MsgType' : 'text',
-  //   'Content' : '兰兰欢迎您!'
-  // };
-  //data.indexOf("<FromUserName>");
-  //data.indexOf("</FromUserName>");
-  //var  str = "<FromUserName>";
- // console.log(data.indexOf("<FromUserName>"));
- // console.log(str.length);
-  // console.log((data.indexOf("<FromUserName>")+str.length));
-  var FromUserName = data.substring((data.indexOf("<FromUserName>")+("<FromUserName>").length),data.indexOf("</FromUserName>"));
-  var ToUserName = data.substring((data.indexOf("<ToUserName>")+("<ToUserName>").length),data.indexOf("</ToUserName>"));
-  //console.log(FromUserName);
-  //===构造返回信息
-  var xml = "<xml> <ToUserName>"+FromUserName+"</ToUserName> <FromUserName>"+ToUserName+"</FromUserName>"+
-  "<CreateTime>"+Date.parse(new Date())+"</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[兰兰欢迎您!]]></Content> </xml>";
-
-
-  //var xml =  builder.buildObject("xml",retJson);
-  console.log(xml);
-  return xml;
-
+  var MsgType = data.substring((data.indexOf("<MsgType>")+("<MsgType>").length),data.indexOf("</MsgType>"));
+  console.log("接收消息类型："+MsgType+"    ,消息详细信息："+data);
+  if(MsgType.indexOf("text")){
+    //文字的时候才回复
+    console.log("###消息接收解析并回复###");
+    var FromUserName = data.substring((data.indexOf("<FromUserName>")+("<FromUserName>").length),data.indexOf("</FromUserName>"));
+    var ToUserName = data.substring((data.indexOf("<ToUserName>")+("<ToUserName>").length),data.indexOf("</ToUserName>"));
+    //===构造返回信息
+    var xml = "<xml> <ToUserName>"+FromUserName+"</ToUserName> <FromUserName>"+ToUserName+"</FromUserName>"+
+    "<CreateTime>"+Date.parse(new Date())+"</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[兰兰欢迎您!]]></Content> </xml>";
+    console.log(xml);
+    return xml;
+  }else if(MsgType.indexOf("event")){
+    //如果是点击按钮事件，则把用户的openid放在一个全局变量里面，跳转链接页面会取到数据
+    var FromUserName = data.substring((data.indexOf("<FromUserName>")+("<FromUserName>").length),data.indexOf("</FromUserName>"));
+    FromUserName = FromUserName.split('< ![CDATA[')[1];
+    FromUserName = FromUserName.split('] ]')[0];
+    config.clickUserOpenId = FromUserName;
+  }
 }
 
 

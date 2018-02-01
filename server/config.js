@@ -6,6 +6,7 @@ var config = {
 	'expires_in':'',
 	'regettime':0,
 	'max_regettime':5,
+	'clickUserOpenId':'',
 	accessTokenIsRight:function(){
 		if(this.access_token=='' || this.starttime=='' || this.expires_in=='')return false;
 		if((this.starttime+(this.expires_in*1000))<=(new Date().getTime())){
