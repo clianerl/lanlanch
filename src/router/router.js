@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NodejsIndex from '@/page/nodejsindex'
 import Index from '@/page/index'
 import Content from '@/page/content'
 import Mainpage from '@/page/main'
@@ -15,6 +16,10 @@ export default new Router({
     {
       path: '/',
       component: Index
+    },
+    {
+      path: '/nodejsindex',
+      component: NodejsIndex
     },
     {
       path: '/main',

@@ -5,7 +5,7 @@
 		<div class="col-xs-8 header-btn title"><span>查看</span></div>
 		<div class="col-xs-2 header-btn add"><span>新增</span></div>
 	</div>
-	<item v-for="msgitem in msg" :msg="msgitem"></item>
+	<!-- <item v-for="msgitem in msg" :msg="msgitem"></item> -->
 </div>
 </template>
 <script>
