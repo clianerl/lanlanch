@@ -153,7 +153,7 @@
 </template>
 <script>
 /* eslint-disable */
-import Swiper from 'Swiper'  
+import Swiper from 'swiper'  
 export default {
   data () {
     return {
