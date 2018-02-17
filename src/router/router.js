@@ -4,6 +4,8 @@ import NodejsIndex from '@/page/nodejsindex'
 import Index from '@/page/index'
 import Content from '@/page/content'
 import Mainpage from '@/page/main'
+import PCLogin from '@/page/login'
+import PCRegist from '@/page/regist'
 
 Vue.use(Router)
 
@@ -24,6 +26,14 @@ export default new Router({
     {
       path: '/main',
       component: Mainpage
+    },
+    {
+      path: '/login',
+      component: PCLogin
+    },
+    {
+      path: '/regist',
+      component: PCRegist
     }
   ]
 })

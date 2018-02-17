@@ -1,7 +1,7 @@
 // 配置API接口地址
 // var root = '/api/v1'
-// var root = '/SSM_WEB_DEV'
-var root = '/node'
+var root = '/SSM_WEB_DEV'
+// var root = '/node'
 // 引用axios
 var axios = require('axios')
 // 自定义判断元素类型JS
@@ -67,6 +67,8 @@ function apiAxios (method, url, params, success, failure) {
   })
 }
 
+
+
 // 返回在vue模板中的调用接口
 export default {
   get: function (url, params, success, failure) {
@@ -82,3 +84,8 @@ export default {
     return apiAxios('DELETE', url, params, success, failure)
   }
 }
+// example :::  
+// this.$api.post('user/regUserInfo', null, data => {
+//     console.log(data);
+//     $this.hideLoading()
+// })

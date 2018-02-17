@@ -9,8 +9,8 @@
 </div>
 </template>
 <script>
-/* eslint-disable */
 import item from '../components/main_item.vue'
+
 export default {
   components: { item },
   data () {

@@ -31,7 +31,11 @@
           </div>
           <!-- 登陆 -->
           <div class="login pull-right">
-            <button type="button" class="btn btn-default">登陆</button>
+            <button type="button" class="btn btn-default" @click="redirectToLogin">登陆</button>
+          </div>
+          <!-- 注册 -->
+          <div class="login pull-right">
+            <button type="button" class="btn btn-default" id="regist" @click="redirectToRegist">注册</button>
           </div>
           <!-- 发文章按钮 -->
           <div class="add pull-right">
@@ -164,6 +168,12 @@ export default {
     this.setSwiper()
   },
   methods: {
+    redirectToLogin () {
+      this.$router.push({path: '/login'});
+    },
+    redirectToRegist () {
+      this.$router.push({path: '/regist'});
+    },
     setSwiper () {
       var swiperOption = {
         loop: true,

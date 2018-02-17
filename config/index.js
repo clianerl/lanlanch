@@ -17,7 +17,7 @@ module.exports = {
         changeOrigin: false,
       },
       '/SSM_WEB_DEV/**': {
-        target: 'http://10.168.1.162:8080'
+        target: 'http://47.91.217.132:8080'
       },
       '/node/**':{
         target: 'http://localhost:80'

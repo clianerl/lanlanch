@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
 	// conn.query("SELECT * FROM lanlan.lan_message;",function(data){
 	// 	res.render('index', { title: 'Express' });
 	// })
-	res.sendfile('../dist/index.html');
+	res.sendfile('../dist/main.html');
 });
 
 module.exports = router;

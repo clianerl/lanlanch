@@ -1,0 +1,53 @@
+.row-content{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+}
+.left-panel{
+	position:relative;
+	height:100%;
+	background-color: #FF8247;
+	color:white;
+}
+.login .left-panel{
+	background-color: #1E90FF;
+}
+.left-panel>.text{
+	position:absolute;
+	height:80px;
+	width:100%;
+	top:50%;
+	left:0;
+	margin-top:-150px;
+}
+.left-panel>.text>h2{
+	display: inline-block;
+	width:100%;
+	text-align: center;
+}
+.right-panel{
+	position:relative;
+	height:100%;
+	background-color: #F0F0F0;
+}
+.right-panel>.login-form{
+	position:absolute;
+    height:200px;
+    width:300px;
+    top:50%;
+    left:50%;
+    margin-top:-100px;
+    margin-left:-150px;
+}
+.form-group{height:auto;}
+.login-button{border:none;width:100%;border:1px solid #FF8247;color:#FF8247;}
+.login .login-button{border:1px solid #1E90FF;color:#1E90FF;}
+.login-button:hover{background-color: #FF8247;color:white;}
+.login .login-button:hover{background-color:#1E90FF;}
+.returntoindex{
+	position: absolute;
+	top:10px;
+	right:25px;
+	border:none;
+
+}
