@@ -21,7 +21,7 @@ export default {
 <style scoped>
 	.loading-background{
 		position:fixed;
-		z-index: 1000;
+		z-index: 20000;
 		height:100%;
 		width:100%;
 		background-color: rgba(0,0,0,.6)

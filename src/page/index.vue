@@ -1,68 +1,14 @@
 <template>
   <div>
-    <div class="header">
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <!-- 标题 -->
-          <div class="navbar-header">
-              <a class="navbar-brand" href="#">哈哈哈</a>
-          </div>
-          <!-- 导航栏 -->
-          <div>
-              <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">热门</a></li>
-                  <li><a href="#">论坛</a></li>
-                  <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          我的分类
-                          <b class="caret"></b>
-                      </a>
-                      <ul class="dropdown-menu">
-                          <li><a href="#">jmeter</a></li>
-                          <li><a href="#">EJB</a></li>
-                          <li><a href="#">Jasper Report</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">分离的链接</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">另一个分离的链接</a></li>
-                      </ul>
-                  </li>
-              </ul>
-          </div>
-          <!-- 登陆 -->
-          <div class="login pull-right">
-            <button type="button" class="btn btn-default" @click="redirectToLogin">登陆</button>
-          </div>
-          <!-- 注册 -->
-          <div class="login pull-right">
-            <button type="button" class="btn btn-default" id="regist" @click="redirectToRegist">注册</button>
-          </div>
-          <!-- 发文章按钮 -->
-          <div class="add pull-right">
-            <button type="button" class="btn btn-default" style="color:#1E90FF">发博客</button>
-          </div>
-          <!-- 搜索框 -->
-          <div class="search pull-right">
-            <div class="input-group">
-              <input type="text" class="form-control">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                  搜索
-                </button>
-              </span>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
+    <myheader></myheader>
     <div class="content container" id="content">
       <div class="row">
         <div class="col-sm-8 left-swiper">
           <div class="swiper-container-1">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="static/image/Leon-1.jpg"></div>
-                <div class="swiper-slide"><img src="static/image/Leon-2.jpg"></div>
-                <div class="swiper-slide"><img src="static/image/Leon-3.jpg"></div>
+                <div class="swiper-slide" data-id="id1"><img src="static/image/Leon-1.jpg"></div>
+                <div class="swiper-slide" data-id="id2"><img src="static/image/Leon-2.jpg"></div>
+                <div class="swiper-slide" data-id="id3"><img src="static/image/Leon-3.jpg"></div>
             </div>
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
@@ -139,26 +85,18 @@
           <span class="text-footer">点赞：<span>500</span></span>
         </div>
       </div>
-      <div class="row">
-        <div class="pagination-container">
-          <ul class="pagination">
-            <li class="previous"><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li class="next"><a href="#" >&raquo;</a></li>
-          </ul>
-        </div>
-      </div>
+      <pagination :show="true" :now="2" :max="8" @changePage="changePage"></pagination>
     </div>
   </div>
 </template>
 <script>
-/* eslint-disable */
 import Swiper from 'swiper'  
+import myheader from '../components/header.vue'
+import pagination from '../components/pagination.vue'
 export default {
+  components:{
+    myheader ,pagination
+  },
   data () {
     return {
       list: []
@@ -166,14 +104,9 @@ export default {
   },
   mounted () {
     this.setSwiper()
+    this.hideloading()
   },
   methods: {
-    redirectToLogin () {
-      this.$router.push({path: '/login'});
-    },
-    redirectToRegist () {
-      this.$router.push({path: '/regist'});
-    },
     setSwiper () {
       var swiperOption = {
         loop: true,
@@ -184,21 +117,31 @@ export default {
           clickable:true
         },
         speed:300,
-        autoplay : {
-          delay:3000,
-          disableOnInteraction:false
-        },
+        // autoplay : {
+        //   delay:3000,
+        //   disableOnInteraction:false
+        // },
         autoplayDisableOnInteraction : false,
         // 如果需要前进后退按钮
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         }
+
       }
 
       var mySwiper1 = new Swiper ('.swiper-container-1', swiperOption);  
       var mySwiper2 = new Swiper ('.swiper-container-2', swiperOption);
       var mySwiper3 = new Swiper ('.swiper-container-3', swiperOption);
+    },
+    changePage (num) {
+      // 点击分页后的事件
+      var a = 1
+      for(var i=0;i<10;i++){
+        console.log(i)
+      }
+      console.log(i)
+      this.$router.push({path: '/'})
     }
   }
 }

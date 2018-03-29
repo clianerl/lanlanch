@@ -3,6 +3,10 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+ // 测试地址
+var url = 'localhost'
+// 服务器地址
+// var url = '47.91.217.132'
 
 module.exports = {
   dev: {
@@ -17,7 +21,7 @@ module.exports = {
         changeOrigin: false,
       },
       '/SSM_WEB_DEV/**': {
-        target: 'http://47.91.217.132:8080'
+        target: 'http://'+url+':8080'
       },
       '/node/**':{
         target: 'http://localhost:80'

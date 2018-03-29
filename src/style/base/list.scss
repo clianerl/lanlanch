@@ -1,0 +1,40 @@
+.mylist{
+	padding:20px;
+	ul.list{
+		min-height:400px;
+		margin:0;
+		padding:20px;
+		list-style:none;
+		li:first-child{border-top:1px solid #F0F0F0}
+		li{
+			line-height:40px;
+			border-bottom:1px solid #F0F0F0;
+			span.title{
+					display:inline-block;
+					width:80%;
+					cursor:pointer;
+			}
+			span.title:hover{
+				font-weight:500;
+			}
+			span.list-right{
+				width:19%;
+				display:inline-block;
+				text-align:right;
+				button{
+					display:inline-block;
+
+					line-height:20px;
+					outline:none;
+					background-color:transparent;
+					border-radius:4px;
+					cursor:default;
+				}
+				span.icon{
+
+					margin-left:10px;
+				}
+			}
+		}
+	}
+}

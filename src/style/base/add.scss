@@ -1,0 +1,78 @@
+.mypage.container{
+	width:100%;
+	padding:0 30px;
+	margin-bottom:20px;
+
+	.row{background-color: white;}
+	.row>div{padding:0;}
+	.my-menu{
+		height:100%;
+		width:100%;
+		padding:0;
+		margin:0;
+
+		list-style: none;
+		background-color: white;
+		li{
+			line-height:35px;
+			padding:0 30px;
+			color:#666;
+		}
+		li:hover{
+			background-color: rgb(30, 144, 255);
+			color:white;
+			cursor:pointer;
+		}
+		li.active{
+			color: rgb(30, 144, 255);
+		}
+		li.active:hover{
+			color:white;
+		}
+	}
+	.my-menu-title{
+		display: inline-block;
+		width:100%;
+		line-height:50px;
+		padding:0 20px;
+
+		color:#bbb;
+
+		font-size:14px;
+	}
+	.myeditor{padding:20px;}
+	.editor-nav{
+		height:30px;
+
+		background-color: white;
+		border: 1px solid #ccc;
+	}
+	.editor-content{
+		height: 500px;
+		padding-bottom:40px;
+		border: 1px solid #ccc;
+		background-color:white;
+	}
+}
+.choose-sort{width:200px;}
+.add-sort{
+	label{width:100%;}
+	input{width:150px;display:inline-block;}
+	button{width:40px;display:inline-block;}
+}
+
+
+/*内容页*/
+.mypage.container{
+	.mycontent{
+
+		padding:10px 30px;
+
+		.title{
+
+		}
+		.content{
+			min-height:400px;
+		}
+	}
+}
