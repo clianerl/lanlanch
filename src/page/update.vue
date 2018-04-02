@@ -5,11 +5,7 @@
   <div class="mypage container">
   	<div class="row">
   		<div class="col-sm-2 " style="height:100%;">
-  			<span class="my-menu-title">我的文章</span>
-  			<ul class="my-menu">
-  				<router-link to="/mylist" tag="li">全部文章</router-link>
-  				<router-link to="/classifymanage" tag="li">分类管理</router-link> 
-  			</ul>
+  			<leftpanel :mylist-active="false" :classifymanage-active="false"></leftpanel>
   		</div>
   		<div class="col-sm-10" style="border-left:1px solid #F0F0F0">
   			<DIV class="myeditor">
@@ -52,6 +48,7 @@
 </template>
 <script>
 import myheader from '../components/header.vue'
+import leftpanel from '../components/leftPanel.vue'
 import E from 'wangeditor'
 
 export default {
@@ -67,60 +64,67 @@ export default {
 		}
 	},
 	components:{
-		myheader
+		myheader,leftpanel
 	},
 	created () {
-		// 根据id获取内容
-	    var param = {
-	          'id':this.id
-	        }
-	    this.showloading()
-	    this.$api.get('message/queryMessageById', param, data => {
-	      console.log(data)
-	      this.hideloading()
-	      if(data.status==0){
-	        var message = data.data[0]
-	        this.editorTitle = message.title
-	        this.editorContent = message.content
-	        this.isSecret = message.is_secret=='0'?false:true
-	        this.fl = message.lan_classify_id
-	        console.log(this.editorContent)
-	        if(this.editor!=null){
-	        	this.editor.txt.html(this.editorContent)
-	        }
-	      }else{
-	        this.alertOk("alert",data.errormsg)
-	      }
-	    },data => {
-	      this.hideloading()
-	      this.alertOk("alert","系统繁忙！")
-	    })
-	    // 初始化下拉类别
-    	this.showloading()
-    	var $this = this
-    	this.$api.post('message/queryClassify', {}, data => {
-		        console.log(data)
-		        $this.hideloading()
-		        if(data.queryflag==0){
-		        	var classifyArr = data.data
-		        	for(var i =0;i<classifyArr.length;i++){
-		        		$this.classifyArr.push({
-		        			name:classifyArr[i].lan_classify_name,
-		        			id:classifyArr[i].lan_classify_id
-		        		})
-		        	}
-		        }else{
-		        	$this.alertOk("alert","获取文章类别失败！")
-		        }
-		},data => {
-			$this.hideloading()
-			$this.alertOk("alert","系统繁忙！")
-		})
+		this.getContent()
+	    this.initClassify()
 	},
 	methods: {
         getContent () {
             this.alertOk("alert",this.editorContent)
         },
+        // 根据id获取内容
+        getContent () {
+		    var param = {
+		          'id':this.id
+		        }
+		    this.showloading()
+		    this.$api.get('message/queryMessageById', param, data => {
+		      console.log(data)
+		      this.hideloading()
+		      if(data.status==0){
+		        var message = data.data[0]
+		        this.editorTitle = message.title
+		        this.editorContent = message.str_content
+		        this.isSecret = message.is_secret=='0'?false:true
+		        this.fl = message.lan_classify_id
+		        console.log(this.editorContent)
+		        if(this.editor!=null){
+		        	this.editor.txt.html(this.editorContent)
+		        }
+		      }else{
+		        this.alertOk("alert",data.errormsg)
+		      }
+		    },data => {
+		      this.hideloading()
+		      this.alertOk("alert","系统繁忙！")
+		    })
+        },
+        // 初始化下拉类别
+        initClassify () {
+	    	this.showloading()
+	    	var $this = this
+	    	this.$api.get('message/queryClassify', {userid:this.$utils.getUserMsg().userid}, data => {
+			        console.log(data)
+			        $this.hideloading()
+			        if(data.queryflag==0){
+			        	var classifyArr = data.data
+			        	for(var i =0;i<classifyArr.length;i++){
+			        		$this.classifyArr.push({
+			        			name:classifyArr[i].lan_classify_name,
+			        			id:classifyArr[i].lan_classify_id
+			        		})
+			        	}
+			        }else{
+			        	$this.alertOk("alert","获取文章类别失败！")
+			        }
+			},data => {
+				$this.hideloading()
+				$this.alertOk("alert","系统繁忙！")
+			})
+        },
+        // 更新文章
         doAdd () {
         	// 判断标题和内容是否为空
         	if(this.editorTitle == ''){

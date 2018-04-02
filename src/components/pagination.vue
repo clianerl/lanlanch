@@ -49,9 +49,6 @@ export default {
 	methods:{
 		changePage (num) {
 			// 去掉当前的active
-			for(var i=0;i<this.innerMax;i++){
-				this.arrayfor[i].isActive = false	
-			}
 			this.$emit('changePage',num)
 		}
 	}

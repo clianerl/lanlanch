@@ -44,48 +44,16 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 content-item">
-          <h4>这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题</h4>
-          <p class="text">正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。</p>
+        <div class="col-sm-12 content-item" v-for="m in list">
+          <h4>{{m.title}}</h4>
+          <p class="text" v-html="m.str_content"></p>
           <span class="text-footer">作者：<span class="writer">lanlanlan</span></span>
-          <span class="text-footer">时间：<span>2018-01-02</span></span>
-          <span class="text-footer">阅读量：<span>1000</span></span>
-          <span class="text-footer">点赞：<span>500</span></span>
-        </div>
-        <div class="col-sm-12 content-item">
-          <h4>这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题</h4>
-          <p class="text">正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。</p>
-          <span class="text-footer">作者：<span class="writer">lanlanlan</span></span>
-          <span class="text-footer">时间：<span>2018-01-02</span></span>
-          <span class="text-footer">阅读量：<span>1000</span></span>
-          <span class="text-footer">点赞：<span>500</span></span>
-        </div>
-        <div class="col-sm-12 content-item">
-          <h4>这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题</h4>
-          <p class="text">正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。</p>
-          <span class="text-footer">作者：<span class="writer">lanlanlan</span></span>
-          <span class="text-footer">时间：<span>2018-01-02</span></span>
-          <span class="text-footer">阅读量：<span>1000</span></span>
-          <span class="text-footer">点赞：<span>500</span></span>
-        </div>
-        <div class="col-sm-12 content-item">
-          <h4>这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题</h4>
-          <p class="text">正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。</p>
-          <span class="text-footer">作者：<span class="writer">lanlanlan</span></span>
-          <span class="text-footer">时间：<span>2018-01-02</span></span>
-          <span class="text-footer">阅读量：<span>1000</span></span>
-          <span class="text-footer">点赞：<span>500</span></span>
-        </div>
-        <div class="col-sm-12 content-item">
-          <h4>这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题这是一篇博客的标题</h4>
-          <p class="text">正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦正文的一部分，我是正文的一部分啦啦啦啊，啦啦啦啦啦啦啦啦。</p>
-          <span class="text-footer">作者：<span class="writer">lanlanlan</span></span>
-          <span class="text-footer">时间：<span>2018-01-02</span></span>
+          <span class="text-footer">时间：<span>{{m.datetime}}</span></span>
           <span class="text-footer">阅读量：<span>1000</span></span>
           <span class="text-footer">点赞：<span>500</span></span>
         </div>
       </div>
-      <pagination :show="true" :now="2" :max="8" @changePage="changePage"></pagination>
+      <pagination :show="true" :now="pageNow" :max="pageMax" @changePage="changePage"></pagination>
     </div>
   </div>
 </template>
@@ -99,14 +67,52 @@ export default {
   },
   data () {
     return {
-      list: []
+      list: [],
+      pageNow:1,
+      pageMax:0,
+      userid:this.$utils.getUserMsg().userid
     }
+  },
+  created () {
+    this.hideloading()
+    this.getMessage()
   },
   mounted () {
     this.setSwiper()
-    this.hideloading()
   },
   methods: {
+    changePage (now) {
+          // 点击页码，请求新数据
+          this.pageNow = now
+          this.getMessage()
+    },
+    getMessage (){
+          var param = {
+            'pageno':this.pageNow==null?1:this.pageNow,
+            'userid':'',
+            classifyid:'',
+          }
+          this.showloading()
+          this.$api.get('testmessage/getTestMessage', param, data => {
+              this.hideloading()
+              if(data.status==0){
+                this.list = data.userData
+                for(var i =0;i<this.list.length;i++){
+                  if(this.list[i].is_secret=="0"){
+                    this.list[i].is_secret = false
+                  }else{
+                    this.list[i].is_secret = true
+                  }
+                }
+                this.pageMax = data.count
+              }else{
+                this.alertOk("alert","发布失败！")
+              }
+      },data => {
+        this.hideloading()
+        this.alertOk("alert","系统繁忙！")
+      })
+    },
     setSwiper () {
       var swiperOption = {
         loop: true,
@@ -133,15 +139,6 @@ export default {
       var mySwiper1 = new Swiper ('.swiper-container-1', swiperOption);  
       var mySwiper2 = new Swiper ('.swiper-container-2', swiperOption);
       var mySwiper3 = new Swiper ('.swiper-container-3', swiperOption);
-    },
-    changePage (num) {
-      // 点击分页后的事件
-      var a = 1
-      for(var i=0;i<10;i++){
-        console.log(i)
-      }
-      console.log(i)
-      this.$router.push({path: '/'})
     }
   }
 }

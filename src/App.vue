@@ -15,6 +15,7 @@ export default {
   data () {
   	return {
   		showloading:false,
+      loadingNum:0,
       showAlert:false,
       alertType:'alert',
       alertText:'我是内容',
@@ -24,9 +25,28 @@ export default {
       username:''
   	}
   },
+  watch:{
+    '$route' (toUrl, fromUrl) { 
+      // 每次翻页时候重置loading个数
+      this.loadingNum = 0
+      this.showloading = false
+    }
+  },
   methods:{
   	changeloading (flag) {
-  		this.showloading = flag
+      // 这里记录一个loading个数的数据，为了使最后一个removeLoading才生效
+      if(flag && this.showloading){
+        this.loadingNum++
+      }else if(flag && !this.showloading){
+        this.loadingNum = 0
+        this.showloading = flag
+      }else if(!flag && this.showloading){
+        if(this.loadingNum>0){
+          this.loadingNum--
+        }else{
+          this.showloading = false
+        }
+      }
   	},
     alertOk (param) {
       this.alertType = param[0]

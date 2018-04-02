@@ -68,11 +68,6 @@ export default {
     		}
     	}
     },
-    watch:{
-        show :function() {
-            this.isShow = this.show
-        }
-    },
     methods:{
         doClose () {
             this.alertClose();

@@ -8,22 +8,18 @@
           </div>
           <!-- 导航栏 -->
           <div>
-              <ul class="nav navbar-nav" @click="doActive">
+              <ul class="nav navbar-nav">
                   <li id="rm"><router-link to="/">热门</router-link></li>
-                  <li id="lt"><router-link to="/" active-class="active">论坛</router-link></li>
+                  <li id="lt"><router-link to="/lt">论坛</router-link></li>
                   <li id="mysort" class="dropdown" > 
-                      <router-link to="/" class="dropdown-toggle" active-class="active" data-toggle="dropdown">
+                      <router-link to="/mylist/all" class="dropdown-toggle" data-toggle="dropdown">
                         我的分类
                           <b class="caret"></b>
                       </router-link>
-                      <ul class="dropdown-menu">
-                          <li><a href="#">jmeter</a></li>
-                          <li><a href="#">EJB</a></li>
-                          <li><a href="#">Jasper Report</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">分离的链接</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">另一个分离的链接</a></li>
+                      <ul class="dropdown-menu" v-if="classifyArr.length!=0">
+                          <li v-for="c in classifyArr">
+                            <a href="javascript:void(0)" @click="linkToList(c.id)">{{c.name}}</a>
+                          </li>
                       </ul>
                   </li>
               </ul>
@@ -68,25 +64,28 @@
 			return {
 				// isLogin:false,
 				username:'lan',
-				userid:""
+				userid:"",
+        classifyArr:[]
 			}
 		},
 		created () {
       var userObj = this.$utils.getUserMsg()
-
 			this.userid = userObj.userid
       this.username = (userObj.username==null?"":userObj.username.substring(0,10) )
+      
 		},
     mounted () {
       // 如果地址不是首页，添加校验是否登录
       var path = this.$route.path
-      if(path!="/"){
-        if(!this.isLogin){
+      if(!this.isLogin){
+        if(path!="/"){
+          // 没登录，并且不是在首页，则提示登录，并跳转回首页
           this.$router.push({path: '/'})   
           alert("请先登录！")
         }
-        // // 导航栏高亮变化
-        // $("#mysort").addClass("active").siblings().removeClass("active")
+      }else{
+        //已登录状态下，header才加载我的类别下级菜单
+        this.initClassify()
       }
     },
 		computed:{
@@ -106,14 +105,6 @@
       }
     },
     methods:{
-    	// redirectToLogin () {
-     //    // 跳转到login
-	    //   this.$router.push({path: '/login'}) 
-	    // },
-	    // redirectToRegist () {
-     //    // 跳转到regist
-	    //   this.$router.push({path: '/regist'}) 
-	    // },
 	    dologout () {
 	    	this.userid = ''
         this.$utils.setUserMsg({
@@ -122,9 +113,31 @@
         })
         this.$router.push({path: '/'}) 
 	    },
-      doActive (e) {
-        // var $li = $(e.target).parent()
-        // $li.addClass("active").siblings().removeClass("active")
+      linkToList (id) {
+        this.$router.push({path: '/mylist/'+id}) 
+      },
+      initClassify () {
+        // 初始化下拉类别
+        this.showloading()
+        var $this = this
+        this.$api.get('message/queryClassify', {userid:this.userid}, data => {
+              console.log(data)
+              $this.hideloading()
+              if(data.queryflag==0){
+                var classifyArr = data.data
+                for(var i =0;i<classifyArr.length;i++){
+                  $this.classifyArr.push({
+                    name:classifyArr[i].lan_classify_name,
+                    id:classifyArr[i].lan_classify_id
+                  })
+                }
+              }else{
+                $this.alertOk("alert","获取文章类别失败！")
+              }
+        },data => {
+          $this.hideloading()
+          $this.alertOk("alert","系统繁忙！")
+        })
       }
     }
 	}

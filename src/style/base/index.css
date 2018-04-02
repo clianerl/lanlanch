@@ -4,12 +4,21 @@ body{background-color: #F0F0F0;}
 .header .search{
 	width:200px;
 }
+.header .nav.navbar-nav>li>.router-link-exact-active{
+	color:#555;
+	background-color: #e7e7e7;
+}
 .header .search>.input-group>input{
 	color:#5B5B5B;
 }
 .header .search>.input-group>span>.btn-default{
 	color:#9D9D9D;
 }
+.navbar .nav > li:hover .dropdown-menu {  
+        display: block;  
+        z-index:20000;
+}  
+
 .content{
 	height:auto;
 	padding-bottom:15px;
@@ -61,6 +70,7 @@ body{background-color: #F0F0F0;}
 	font-size: 12px;
 	font-weight: 500;
 	padding-right:20px;
+	color:#999;
 }
 /*分页*/
 .pagination-container{text-align: center;}

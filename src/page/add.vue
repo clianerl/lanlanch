@@ -5,11 +5,7 @@
   <div class="mypage container">
   	<div class="row">
   		<div class="col-sm-2 " style="height:100%;">
-  			<span class="my-menu-title">我的文章</span>
-  			<ul class="my-menu">
-  				<router-link to="/mylist" tag="li">全部文章</router-link>
-  				<router-link to="/classifymanage" tag="li">分类管理</router-link>
-  			</ul>
+  			<leftpanel :mylist-active="false" :classifymanage-active="false"></leftpanel>
   		</div>
   		<div class="col-sm-10" style="border-left:1px solid #F0F0F0">
   			<DIV class="myeditor">
@@ -27,12 +23,13 @@
 					<label for="name">选择分类</label>
 					<select class="form-control" v-model="fl">
 						<option v-for="c in classifyArr" :value="c.id">{{c.name}}</option>
+						<option v-if="classifyArr.length==0" value="">暂无,请添加类别</option>
 					</select>
 				</div>
 				<div class="form-group add-sort" >		
 					<label for="name">新增分类</label>
-					<input type="text" class="form-control" placeholder="请输入分类名称">
-					<button type="button" class="btn btn-default">+</button>
+					<input type="text" class="form-control" placeholder="请输入分类名称" v-model="newClassify">
+					<button type="button" class="btn btn-default" @click="doAddClassify">+</button>
 				</div>
 				<div class="form-group">
 			      <div class="checkbox">
@@ -53,6 +50,7 @@
 <script>
 import myheader from '../components/header.vue'
 import E from 'wangeditor'
+import leftpanel from '../components/leftPanel.vue'
 
 export default {
 	data () {
@@ -61,43 +59,83 @@ export default {
 			editorTitle:'',
 			isSecret:false,
 			fl:'',
-			classifyArr:[]
+			classifyArr:[],
+			newClassify:''
 		}
 	},
 	components:{
-		myheader
+		myheader,leftpanel
 	},
 	created () {
-		// 初始化下拉类别
-    	this.showloading()
-    	var $this = this
-    	this.$api.post('message/queryClassify', {}, data => {
-		        console.log(data)
-		        $this.hideloading()
-		        if(data.queryflag==0){
-		        	var classifyArr = data.data
-		        	for(var i =0;i<classifyArr.length;i++){
-		        		$this.classifyArr.push({
-		        			name:classifyArr[i].lan_classify_name,
-		        			id:classifyArr[i].lan_classify_id
-		        		})
-		        	}
-		        }else{
-		        	$this.alertOk("alert","获取文章类别失败！")
-		        }
-		},data => {
-			$this.hideloading()
-			$this.alertOk("alert","系统繁忙！")
-		})
+		this.initClassify()
 	},
 	methods: {
         getContent () {
             this.alertOk("alert",this.editorContent)
         },
+        // 初始化下拉类别
+        initClassify () {
+	    	this.showloading()
+	    	var $this = this
+	    	this.$api.get('message/queryClassify', {userid:this.$utils.getUserMsg().userid}, data => {
+			        console.log(data)
+			        $this.hideloading()
+			        if(data.queryflag==0){
+			        	var classifyArr = data.data
+			        	for(var i =0;i<classifyArr.length;i++){
+			        		$this.classifyArr.push({
+			        			name:classifyArr[i].lan_classify_name,
+			        			id:classifyArr[i].lan_classify_id
+			        		})
+			        	}
+			        }else{
+			        	$this.alertOk("alert","获取文章类别失败！")
+			        }
+			},data => {
+				$this.hideloading()
+				$this.alertOk("alert","系统繁忙！")
+			})
+        },
+        // 点击确认，新增或修改数据
+	    doAddClassify () {
+	      // 修改数据
+	      // 最大字数20字
+	      if(this.newClassify.length>20){
+	        this.alertOk("alert","类别字数不能超过20字")
+	        return false
+	      }
+	      this.showloading()
+	      var param = {
+	        name:this.newClassify,
+	        id:'',
+	        user_id:this.$utils.getUserMsg().userid,  
+	      }
+	      // 后台根据id是否为空，判断是新增还是修改
+	      this.$api.post('message/insertClassify', param, data => {
+	            console.log(data)
+	            this.hideloading()
+	            if(data.status==0){
+	              var id = data.id
+	              this.fl = id
+	              this.classifyArr.push({id:id,name:this.newClassify})
+	              this.newClassify = ''
+	            }else{
+	              this.alertOk("alert","添加类别失败！")
+	            }
+	      },data => {
+	        this.hideloading()
+	        this.alertOk("alert","系统繁忙！")
+	      })
+	    },
+        // 点击发布，将内容上传到服务器
         doAdd () {
         	// 判断标题和内容是否为空
         	if(this.editorTitle == ''){
         		this.alertOk("alert","标题不能为空！")
+        		return false
+        	}
+        	if(this.editorTitle.length>50){
+        		this.alertOk("alert","标题不能大于50字")
         		return false
         	}
         	if(this.editorContent == ''){
@@ -151,6 +189,57 @@ export default {
 		editor.customConfig.customAlert = function (info) {
 		    // info 是需要提示的内容
     		alert('自定义提示：' + info)
+		}
+		editor.customConfig.uploadImgHooks = {
+		    before: function (xhr, editor, files) {
+		    	console.log("before")
+		        // 图片上传之前触发
+		        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
+		        
+		        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+		        // return {
+		        //     prevent: true,
+		        //     msg: '放弃上传'
+		        // }
+		    },
+		    success: function (xhr, editor, result) {
+		    	console.log("success")
+		        // 图片上传并返回结果，图片插入成功之后触发
+		        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+		    },
+		    fail: function (xhr, editor, result) {
+		    	console.log("fail")
+		        // 图片上传并返回结果，但图片插入错误时触发
+		        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+		    },
+		    error: function (xhr, editor) {
+		    	console.log("error")
+		        // 图片上传出错时触发
+		        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+		    },
+		    timeout: function (xhr, editor) {
+		    	console.log("timeout")
+		        // 图片上传超时时触发
+		        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+		    },
+
+		    // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+		    // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+		    customInsert: function (insertImg, result, editor) {
+		    	console.log("customInsert")
+		        // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+		        // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+		        // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+		        var url = result.url
+		        insertImg(url)
+
+		        // result 必须是一个 JSON 格式字符串！！！否则报错
+		    }
+		}
+		editor.customConfig.customAlert = function (info) {
+		    // info 是需要提示的内容
+		    console.log('自定义提示：' + info)
 		}
 	    editor.create()
 	    

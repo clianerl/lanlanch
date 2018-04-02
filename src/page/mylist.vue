@@ -5,18 +5,14 @@
   <div class="mypage container">
   	<div class="row">
   		<div class="col-sm-2 " style="height:100%;">
-  			<span class="my-menu-title">我的文章</span>
-  			<ul class="my-menu">
-  				<li class="active">全部文章</li>
-  				<router-link to="/classifymanage" tag="li">分类管理</router-link>
-  			</ul>
+  			<leftpanel :mylist-active="true" :classifymanage-active="false"></leftpanel>
   		</div>
   		<div class="col-sm-10" style="border-left:1px solid #F0F0F0">
   			<DIV class="mylist">
   				<div class="form-group choose-sort" >		
 					<label for="name">选择分类</label>
-					<select class="form-control" name="fl1" v-model="fl">
-						<option v-for="c in classifyArr" :value="c.id">{{c.name}}</option>
+					<select class="form-control" name="fl1" v-model="fl" @change="doQueryByFl">
+						<option v-for="c in classifyArr" :value="c.id" >{{c.name}}</option>
 					</select>
 				</div>
 				<div class="form-group">
@@ -28,6 +24,7 @@
   								<span v-if="m.is_secret" class="icon glyphicon glyphicon-lock"></span>
   							</span>
   						</li>
+  						<li v-if="messageArr.length==0" style="border:none;color:#9D9D9D">无数据</li>
   					</ul>
   				</div>
   				<div class="form-group">
@@ -41,6 +38,7 @@
 </template>
 <script>
 import myheader from '../components/header.vue'
+import leftpanel from '../components/leftPanel.vue'
 import E from 'wangeditor'
 import pagination from '../components/pagination.vue'
 export default {
@@ -50,55 +48,45 @@ export default {
 			pageMax:0,
 			pageShow:true,
 			classifyArr:[{name:'全部',id:'all'}],
-			fl:'all',
+			fl:this.$route.params.classifyid,
 			userid:this.$utils.getUserMsg().userid,
 			messageArr:[]
 		}
 	},
 	components:{
-		myheader,pagination
+		myheader,pagination,leftpanel
 	},
 	created () {
 		// 初始化下拉类别
-    	this.showloading()
-    	var $this = this
-    	this.$api.post('message/queryClassify', {}, data => {
-		        console.log(data)
-		        $this.hideloading()
-		        if(data.queryflag==0){
-		        	var classifyArr = data.data
-		        	for(var i =0;i<classifyArr.length;i++){
-		        		$this.classifyArr.push({
-		        			name:classifyArr[i].lan_classify_name,
-		        			id:classifyArr[i].lan_classify_id
-		        		})
-		        	}
-		        }else{
-		        	$this.alertOk("alert","获取文章类别失败！")
-		        }
-		},data => {
-			$this.hideloading()
-			$this.alertOk("alert","系统繁忙！")
-		})
+		this.initClassify()
 		// 初始化显示第一页
 		this.getMessage()
 	},
+	watch:{
+		'$route' (toUrl, fromUrl) { 
+			this.fl = this.$route.params.classifyid
+			this.getMessage()
+		}
+	},
 	methods: {
+		// 点击翻页后
         changePage (now) {
         	// 点击页码，请求新数据
         	this.pageNow = now
         	this.getMessage()
         },
+        // 获取我的文章列表 
         getMessage (){
         	var param = {
-        		'pageno':this.pageNow,
-        		'userid':this.userid
+        		'pageno':this.pageNow==null?1:this.pageNow,
+        		'userid':this.userid,
+        		'classifyid':this.fl=='all'?'':this.fl
         	}
         	this.showloading()
-        	this.$api.get('message/queryMessageByUser', param, data => {
+        	this.$api.get('testmessage/getTestMessage', param, data => {
 			        this.hideloading()
 			        if(data.status==0){
-			        	this.messageArr = data.data
+			        	this.messageArr = data.userData
 			        	for(var i =0;i<this.messageArr.length;i++){
 			        		if(this.messageArr[i].is_secret=="0"){
 			        			this.messageArr[i].is_secret = false
@@ -107,7 +95,6 @@ export default {
 			        		}
 			        	}
 			        	this.pageMax = data.count
-			        	this.pageNow = data.pageno
 			        }else{
 			        	this.alertOk("alert","发布失败！")
 			        }
@@ -116,9 +103,38 @@ export default {
 				this.alertOk("alert","系统繁忙！")
 			})
         },
+        // 选择上方类别后，重新按类别查询
+        doQueryByFl(){
+        	this.$router.push({path: '/mylist/'+this.fl})
+        },
+        // 点击某条记录后，跳转
         redirectToContent (id) {
         	this.$router.push({path: '/listcontent/'+id})
+        },
+        // 初始化下拉类别
+        initClassify () {
+	    	this.showloading()
+	    	var $this = this
+	    	this.$api.get('message/queryClassify', {userid:this.$utils.getUserMsg().userid}, data => {
+			        console.log(data)
+			        $this.hideloading()
+			        if(data.queryflag==0){
+			        	var classifyArr = data.data
+			        	for(var i =0;i<classifyArr.length;i++){
+			        		$this.classifyArr.push({
+			        			name:classifyArr[i].lan_classify_name,
+			        			id:classifyArr[i].lan_classify_id
+			        		})
+			        	}
+			        }else{
+			        	$this.alertOk("alert","获取文章类别失败！")
+			        }
+			},data => {
+				$this.hideloading()
+				$this.alertOk("alert","系统繁忙！")
+			})
         }
+
     }
 }
 </script>

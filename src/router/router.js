@@ -16,6 +16,7 @@ Vue.use(Router)
 
 export default new Router({
   linkActiveClass: 'active',
+  canReuse:false,
   routes: [
     {
       path: '/',
@@ -50,7 +51,7 @@ export default new Router({
       component: Update
     },
     {
-      path: '/mylist',
+      path: '/mylist/:classifyid',
       component: Mylist
     },
     {
