@@ -37,6 +37,9 @@
 					<button type="submit" class="btn btn-default login-button" id="login_button" @click="dologin">登录</button>
 				</div>
 			</div>
+			<div class="form-group" style="padding-left:50px;">
+				<router-link to="/regist" style="display:inline-block;text-decoration:underline;width:100%;text-align:center;">新用户注册</router-link>
+			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<span class="errmsg"><b>{{errMsg}}</b></span>

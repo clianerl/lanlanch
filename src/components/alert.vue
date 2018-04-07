@@ -8,7 +8,7 @@
                 <button @click="doClose">{{okText}}</button>
             </div>
             <div v-if="typeIsConfirm" class="confirm-btn-group">
-                <button @click="doClose">{{okText}}</button>
+                <button @click="doConfirm">{{okText}}</button>
                 <button @click="doClose">{{cancelText}}</button>
             </div>
 			
@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-    props:['show','type','text','ok','cancel'],
+    props:['show','type','text','comfirmOption'],
     computed: {
         isShow () {
             return this.show
@@ -32,12 +32,17 @@ export default {
     		}
     	},
     	okText () {
-    		if(this.ok==null || this.ok==''){
+            var okStr = null
+            if(this.comfirmOption!=null){
+                okStr = this.comfirmOption.okStr    
+            }
+            
+    		if(okStr==null || okStr==''){
     			return "确定"
-    		}else if((this.ok).length>3){
-    			return (this.ok).substring(0,4)
+    		}else if((okStr).length>3){
+    			return (okStr).substring(0,4)
     		}else{
-    			return this.ok
+    			return okStr
     		}
     	},
     	typeIsConfirm () {
@@ -56,12 +61,16 @@ export default {
         },
     	cancelText () {
     		if(this.type=="confirm"){
-    			if(this.cancel==null || this.cancel==''){ 
+                var cancelStr = null
+                if(this.comfirmOption!=null){
+                    cancelStr = this.comfirmOption.cancelStr    
+                }
+    			if(cancelStr==null || cancelStr==''){ 
     				return "取消"
-	    		}else if((this.cancel).length>3){
-	    			return (this.cancel).substring(0,4)
+	    		}else if((cancelStr).length>3){
+	    			return (cancelStr).substring(0,4)
 	    		}else{
-	    			return this.cancel
+	    			return cancelStr
 	    		}
     		}else{
     			return ""
@@ -71,6 +80,14 @@ export default {
     methods:{
         doClose () {
             this.alertClose();
+        },
+        doConfirm () {
+            if(this.comfirmOption!=null){
+                if(this.comfirmOption.okFunc!=null){
+                    this.comfirmOption.okFunc()
+                    this.doClose()
+                }    
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loading :show="showloading"></loading>
-    <alert @alertClose="alertClose" :show="showAlert" :type="alertType" :text="alertText" :ok="alertOkText" :cancel="alertCancelText"></alert>
+    <alert @alertClose="alertClose" :show="showAlert" :type="alertType" :text="alertText" :comfirmOption="comfirmOption"></alert>
     <router-view @changeloading="changeloading" @alertOk="alertOk" @alertClose="alertClose"/>
   </div>
 </template>
@@ -19,8 +19,7 @@ export default {
       showAlert:false,
       alertType:'alert',
       alertText:'我是内容',
-      alertOkText:'',
-      alertCancelText:'',
+      comfirmOption:{},
       userid:'',
       username:''
   	}
@@ -51,8 +50,7 @@ export default {
     alertOk (param) {
       this.alertType = param[0]
       this.alertText = param[1]
-      this.alertOkText = param[2]
-      this.alertCancelText = param[3]
+      this.comfirmOption = param[2]
       this.showAlert = true
     },
     alertClose () {

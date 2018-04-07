@@ -10,6 +10,7 @@ import Update from '@/page/update'
 import Mylist from '@/page/mylist'
 import Classifymanage from '@/page/classifymanage'
 import Listcontent from '@/page/listcontent'
+import Indexcontent from '@/page/indexcontent'
 import question from '@/page/question'
 
 Vue.use(Router)
@@ -61,6 +62,10 @@ export default new Router({
     {
       path: '/listcontent/:id',
       component: Listcontent
+    },
+    {
+      path: '/indexcontent/:id',
+      component: Indexcontent
     }
 
   ]

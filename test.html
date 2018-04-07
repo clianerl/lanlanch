@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	.w3c-box{
+		margin:20px;
+		border:1px solid black;
+		padding:10px;
+
+		background-color: grey;
+		width:200px;
+		height:100px;
+	}
+	.animate-div{
+		position: fixed;
+		top:200px;
+		left:200px;
+		width:200px;
+		height:200px;
+		transition:left 2s ;
+
+		background-color: red;
+	}
+	.animate-div.click{
+		left:220px;
+	}
+	</style>
+	<script type="text/javascript" src="jquery-1.7.min.js"></script>
+</head>
+<body>
+<div class="w3c-box" id="w3c_box">
+<input value="123" id="inputstr"></input>
+</div>
+<div class="animate-div" id="animate_div"></div>
+<script type="text/javascript">
+	console.log(document.getElementById("w3c_box").offsetHeight)
+	console.log(document.getElementById("w3c_box").offsetWidth)
+
+	$("#w3c_box").click(function(){
+		alert("div!!")
+	})
+	$("#inputstr").click(function(){
+		alert("input!!")
+	})
+	$("#animate_div").click(function(){
+		var left = $(this).css("left").split("px")[0]
+		$(this).css("left",Number(left)+20)
+	})
+	
+</script>
+</body>
+</html>

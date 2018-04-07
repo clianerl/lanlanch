@@ -60,7 +60,8 @@ export default {
 			isSecret:false,
 			fl:'',
 			classifyArr:[],
-			newClassify:''
+			newClassify:'',
+			imgid:''//发布时，回写图片ID
 		}
 	},
 	components:{
@@ -96,7 +97,7 @@ export default {
 				$this.alertOk("alert","系统繁忙！")
 			})
         },
-        // 点击确认，新增或修改数据
+        // 点击确认，新增数据
 	    doAddClassify () {
 	      // 修改数据
 	      // 最大字数20字
@@ -104,9 +105,16 @@ export default {
 	        this.alertOk("alert","类别字数不能超过20字")
 	        return false
 	      }
+	      //类别名称不能重复
+	      for(var i=0;i<this.classifyArr.length;i++){
+	        if(this.classifyArr[i].name==$.trim(this.newClassify)){
+	          this.alertOk("alert","类别名称不能重复")
+	          return false
+	        }
+	      }
 	      this.showloading()
 	      var param = {
-	        name:this.newClassify,
+	        name:$.trim(this.newClassify),
 	        id:'',
 	        user_id:this.$utils.getUserMsg().userid,  
 	      }
@@ -154,7 +162,8 @@ export default {
         		'user_id':this.$utils.getUserMsg().userid,
         		'img_str':'',
         		'datetime':this.$utils.getFormatDate(),
-        		'classify_id':this.fl
+        		'classify_id':this.fl,
+        		'img_str':this.imgid
         	}
         	this.showloading()
         	this.$api.post('message/insertMessage', param, data => {
@@ -190,6 +199,7 @@ export default {
 		    // info 是需要提示的内容
     		alert('自定义提示：' + info)
 		}
+		var $this = this
 		editor.customConfig.uploadImgHooks = {
 		    before: function (xhr, editor, files) {
 		    	console.log("before")
@@ -231,8 +241,11 @@ export default {
 		        // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
 
 		        // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
-		        var url = result.url
-		        insertImg(url)
+		        for(var i=0;i<result.data.length;i++){
+		        	var url = result.data[i]
+		        	insertImg(url)
+		        }
+		        $this.imgid += result.img_id
 
 		        // result 必须是一个 JSON 格式字符串！！！否则报错
 		    }

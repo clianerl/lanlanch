@@ -5,7 +5,28 @@
   <div class="mypage container">
   	<div class="row">
   		<div class="col-sm-2 " style="height:100%;">
-  			<leftpanel :mylist-active="false" :classifymanage-active="false"></leftpanel>
+  			<!-- 作者信息 -->
+        <div class="authormsg">
+          <div class="author-photo">
+            <img src="static/image/photo.jpg">
+          </div>
+          <div class="author-name">
+            <span>lan</span>
+          </div>
+          <div class="author-slogan">
+            <span>我想在这里说一句话，但是又不知道说点什么啊</span>
+          </div>
+          <hr>
+          <div class="author-hot">
+            <ul>
+              <li>热门文章1</li>
+              <li>热门文章2</li>
+              <li>热门文章3</li>
+              <li>热门文章4</li>
+              <li>热门文章5</li>
+            </ul>
+          </div>
+        </div>
   		</div>
   		<div class="col-sm-10" style="border-left:1px solid #F0F0F0">
   			<DIV class="mycontent">
@@ -13,10 +34,10 @@
   				<hr>
           <div class="datetime">{{datetime}}</div>
   				<div class="content" id="content" v-html="content"></div>
-				<div class="form-group" >			
+				<!-- <div class="form-group" >			
 					<button type="button" class="btn btn-default btn-edit" @click="redirectToUpdate">点击编辑</button>
           <button type="button" class="btn btn-default btn-del" @click="doDelete">删除</button>
-				</div>
+				</div> -->
   			</DIV>
   		</div>
   	</div>
@@ -25,7 +46,6 @@
 </template>
 <script>
 import myheader from '../components/header.vue'
-import leftpanel from '../components/leftPanel.vue'
 
 export default {
 	data () {
@@ -33,23 +53,18 @@ export default {
 			title:"--",
 			content:"--",
       datetime:'--',
-      id:this.$route.params.id
+      id:this.$route.params.id,
+      author:''
 		}
 	},
 	components:{
-		myheader,leftpanel
+		myheader
 	},
 	created () {
     // 根据id获取内容
     this.getContent()
 	},
 	methods: {
-        redirectToUpdate () {
-        	console.log(this.$route.params.id)
-        	sessionStorage.setItem('title', this.title)
-        	sessionStorage.setItem('content', this.content)
-        	this.$router.push({path: '/update/'+this.id});
-        },
         // 根据ID获取文章内容
         getContent () {
           var param = {
@@ -72,28 +87,7 @@ export default {
             this.alertOk("alert","系统繁忙！")
           })
         },
-        // 点击删除按钮，删除当前文章
-        doDelete () {
-          var $this = this
-          this.alertOk("confirm","是否确定要删除此篇文章?",{
-            'okStr':'删除',
-            'okFunc':function(){
-              var param = {
-                'id':$this.id
-              }
-              $this.showloading()
-              $this.$api.get('message/delMessage', param, data => {
-                console.log(data)
-                $this.hideloading()
-                $this.$router.push({path: '/mylist/all'});
-              },data => {
-                $this.hideloading()
-                $this.alertOk("alert","系统繁忙！")
-              })
-            }
-          })
-        }
-  } 
+    }
 }
 </script>
 <style scoped  lang="scss">
@@ -117,6 +111,50 @@ $btn-color : #FF4500;
     border:1px solid $btn-color; 
     color:$btn-color ;
     background-color:white ;
+  }
+}
+.authormsg{
+  color:#333;
+  padding:20px;
+  .author-photo{
+
+    width:100%;
+    img{
+      width:100%;
+      height:auto;
+      border:1px solid #F0F0F0;
+    }
+  }
+  .author-name{
+    margin-top:10px;
+    text-align:center;
+    padding:0 20px;
+    span{
+      text-align:center;
+      font-size:17px;
+    }
+  }
+  .author-slogan{
+    margin-top:10px;
+    text-align:left;
+    padding:0 20px;
+    span{
+      font-size:14px;
+    }
+  }
+  .author-hot{
+    ul{
+      padding:0;
+      margin:0;
+      list-style:none;
+      li{
+        display:inline-block;
+        height:40px;
+        width:100%;
+        line-height:20px;
+        overflow:hidden;
+      }
+    }
   }
 }
 </style>

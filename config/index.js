@@ -4,10 +4,9 @@
 
 const path = require('path')
  // 测试地址
-var url = 'localhost'
+// var url = 'localhost'
 // 服务器地址
-// var url = '47.91.217.132'
-
+var url = '47.91.217.132'
 module.exports = {
   dev: {
 
@@ -29,7 +28,7 @@ module.exports = {
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: process.env.PORT, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -65,10 +64,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../server/dist/index.html'),
+    index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../server/dist'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '',
 

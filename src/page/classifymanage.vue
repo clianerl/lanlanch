@@ -90,9 +90,16 @@ export default {
         this.alertOk("alert","类别字数不能超过20字")
         return false
       }
+      //类别名称不能重复
+      for(var i=0;i<this.list.length;i++){
+        if(this.list[i].name==$.trim(li.name)){
+          this.alertOk("alert","类别名称不能重复")
+          return false
+        }
+      }
       this.showloading()
       var param = {
-        name:li.name,
+        name:$.trim(li.name),
         id:li.id,
         user_id:this.$utils.getUserMsg().userid,  
       }
@@ -123,20 +130,26 @@ export default {
         this.alertOk("alert","此类别下有文章，不可删除类别")
         return 
       }
-      var param = {
-        id:id
-      }
-      this.$api.post('message/deleteClassify', param, data => {
-            console.log(data)
-            this.hideloading()
-            if(data.status==0){
-              this.list.splice(index,1)
-            }else{
-              this.alertOk("alert","添加类别失败！")
-            }
-      },data => {
-        this.hideloading()
-        this.alertOk("alert","系统繁忙！")
+      var $this = this
+      this.alertOk("confirm","是否确定要删除类别[ "+this.list[index].name+" ]?",{
+        'okStr':'删除',
+        'okFunc':function(){
+                  var param = {
+                    id:id
+                  }
+                  $this.$api.post('message/deleteClassify', param, data => {
+                        console.log(data)
+                        $this.hideloading()
+                        if(data.status==0){
+                          $this.list.splice(index,1)
+                        }else{
+                          $this.alertOk("alert","添加类别失败！")
+                        }
+                  },data => {
+                    $this.hideloading()
+                    $this.alertOk("alert","系统繁忙！")
+                  })
+                }
       })
     }      
   }

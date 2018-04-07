@@ -78,9 +78,9 @@
       // 如果地址不是首页，添加校验是否登录
       var path = this.$route.path
       if(!this.isLogin){
-        if(path!="/"){
+        if(path!="/" && path.indexOf("/indexcontent")==-1){
           // 没登录，并且不是在首页，则提示登录，并跳转回首页
-          this.$router.push({path: '/'})   
+          this.$router.replace({path: '/login'})   
           alert("请先登录！")
         }
       }else{
